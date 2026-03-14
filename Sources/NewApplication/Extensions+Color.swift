@@ -7,8 +7,8 @@
 import SwiftUI
 
 @available(iOS 15.0, macOS 12.0, *)
-extension Color {
-    public var alphaComponent: CGFloat {
+public extension Color {
+    var alphaComponent: CGFloat {
 #if os(macOS)
         NSColor(self).cgColor.alpha
 #else
@@ -16,7 +16,7 @@ extension Color {
 #endif
     }
     
-    public init(hex: String) {
+    init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
         Scanner(string: hex).scanHexInt64(&int)
