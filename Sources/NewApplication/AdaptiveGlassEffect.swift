@@ -11,7 +11,7 @@ import AppKit
 #endif
 import SwiftUI
 
-enum AdaptiveGlassType {
+public enum AdaptiveGlassType: Sendable {
     case regular
     case clear
     case identity
@@ -19,9 +19,15 @@ enum AdaptiveGlassType {
 
 @available(iOS 15.0, macOS 10.15, *)
 public struct AdaptiveGlass: Equatable, Sendable {
-    let type: AdaptiveGlassType
-    var tint: Color?
-    let isEnabled: Bool
+    public let type: AdaptiveGlassType
+    public var tint: Color?
+    public let isEnabled: Bool
+    
+    public init(type: AdaptiveGlassType, tint: Color? = nil, isEnabled: Bool = true) {
+        self.type = type
+        self.tint = tint
+        self.isEnabled = isEnabled
+    }
     
     public static var regular: AdaptiveGlass { AdaptiveGlass(type: .regular, isEnabled: true) }
     public static var clear: AdaptiveGlass { AdaptiveGlass(type: .clear, isEnabled: true) }
@@ -78,6 +84,11 @@ extension AdaptiveGlass {
 public struct AdaptiveGlassEffect<S: Shape>: ViewModifier {
     var adaptiveGlass: AdaptiveGlass = .regular
     var shape: S
+    
+    public init(adaptiveGlass: AdaptiveGlass = .regular, shape: S) {
+        self.adaptiveGlass = adaptiveGlass
+        self.shape = shape
+    }
     
     public func body(content: Content) -> some View {
         if #available(iOS 26.0, macOS 26.0, *) {
